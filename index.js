@@ -1,4 +1,4 @@
-const grid = document.getElementById("grid");
+const grid = document.querySelector('#grid');
 
 const squaresArray = [];
 let gameRunning = true;
@@ -107,35 +107,51 @@ movePlayer();
 
 //
 
-let commands = [];
-let forward = '<i class= \'bi bi-arrow-up\'></i>';
-let right = '<i class= \'bi bi-arrow-90deg-right\'></i>';
-let left = '<i class= \'bi bi-arrow-90deg-left\'></i>';
+let commandsToExecute = [];
+let commandsToAppear = [];
 let reset = '<i class= \'bi bi-eraser\'></i>';
 let undo = '<i class= \'bi bi-backspace\'></i>';
-let light = '<i class= \'bi bi-lightbulb-fill\'></i>';
-let proc1 = '<span>P1</span>';
-let proc2 = '<span>P2</span>';
+let proc1 = 'p1';
+let proc2 = 'p2';
 let counter = 0;
 let displayMain = document.querySelector('#displayMain');
 
-function addCommands(command){
-    if (command == undo && counter == 0){
+function transformCommands(command){
+    switch (command){
+        case 'forward':
+            return '<i class="bi bi-arrow-up"></i>';
+        case 'right':
+            return '<i class="bi bi-arrow-90deg-right"></i>';
+        case 'left':
+            return '<i class="bi bi-arrow-90deg-left"></i>';       
+        case 'light':
+            return '<i class="bi bi-lightbulb-fill"></i>';
+        default:
+            return '';        
+    }
+}
+
+function addMainCommands(command){
+    if (command == 'undo' && counter == 0){
         return;
     } 
-    else if (command == undo){ 
-        commands.pop();
-        displayMain.innerHTML = commands.join(''); 
+    else if (command == 'undo'){ 
+        commandsToAppear.pop();
+        commandsToExecute.pop();
+        displayMain.innerHTML = commandsToAppear.join(''); 
         counter--;
-    } else if (command == reset){
-        commands = [];
+    } else if (command == 'reset'){
+        commandsToAppear = [];
+        commandsToExecute = [];
         counter = 0;
-        displayMain.innerHTML = commands.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
+        displayMain.innerHTML = commandsToAppear.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
     } 
     else { 
-        commands.push(command); 
-        displayMain.innerHTML += commands[counter]; 
+        commandsToAppear.push(transformCommands(command));
+        commandsToExecute.push(command);
+        displayMain.innerHTML = commandsToAppear.join(''); 
         counter++;
     }
-    console.log(commands); 
+    console.log(commandsToAppear); 
+    console.log(commandsToExecute);
 }    
