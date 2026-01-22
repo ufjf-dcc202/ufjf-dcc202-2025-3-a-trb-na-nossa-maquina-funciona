@@ -80,32 +80,27 @@ function addMapElement(square, char, i, j){
 const player = {
     row: 0,
     column: 0,
-    direction: 0,
 };
 
-// FAZER CADA QUADRADO OCUPAR UMA LINHA E UMA COLUNA DEFINIDAS PARA ALTERAR A POSIÇÃO DO JOGADOR
-//acho que aqui sera inutilizado pela minha funcao que ja cria ids para cada quadrado
-const squares = document.querySelectorAll('.square');
-
-let squarePosition = 0;
-let matrix = [];
-for (let i = 0; i < 5; i++) {
-  matrix[i] = [];
-  for (let j = 0; j < 5; j++) {
-    matrix[i][j] = squares[squarePosition];
-    squarePosition++;
-  }
+// RENDERIZA O JOGADOR NA TELA de acordo com O ID dos squares
+function renderPlayer() { 
+    const square = document.getElementById(`square-${player.row}-${player.column}`); 
+    square.innerHTML = '<i class="bi bi-android2"></i>'; 
+} 
+// MOVE O JOGADOR NA TELA
+function movePlayer() { 
+    const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
+    oldSquare.innerHTML = ''; 
+    
+    player.column++; 
+    
+    const newSquare = document.getElementById(`square-${player.row}-${player.column}`); 
+    newSquare.innerHTML = '<i class="bi bi-android2"></i>'; 
 }
+renderPlayer();
+//movePlayer();
 
-matrix[player.row][player.column].innerHTML = '<i class="bi bi-android2"></i>';
-function movePlayer(){
-    matrix[player.row][player.column].innerHTML = '';
-    player.column++;
-    matrix[player.row][player.column].innerHTML = '<i class="bi bi-android2"></i>';
-}
-movePlayer();
 
-//
 
 let commandsToExecute = [];
 let commandsToAppear = [];
@@ -155,3 +150,6 @@ function addMainCommands(command){
     console.log(commandsToAppear); 
     console.log(commandsToExecute);
 }    
+
+function forward(){
+}
