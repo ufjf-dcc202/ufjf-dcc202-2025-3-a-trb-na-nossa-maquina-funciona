@@ -1,3 +1,82 @@
+const grid = document.getElementById("grid");
+
+const squares = [];
+let playerPosition = 0;
+let gameRunning = true;
+let level = 0;
+
+//a= chao baixo| b= chao medio| c= chao alto| d= chao da luz | e= chao vazio
+const maps = [
+    //level 1
+    [
+        'aaeee',
+        'eaeee',
+        'eaead',
+        'eaeae',
+        'eaaae',
+    ],
+    //level 2
+    [
+        'aaeee',
+        'ebcbe',
+        'eeeae',
+        'eeeae',
+        'eeede',
+    ],
+    //level 3
+    [
+        'aaeee',    
+        'ebbbe',
+        'eeece',
+        'ebcbe',
+        'eaade',
+    ],
+];
+
+function createBoard(){
+    const currentMap = maps[level]; //seleciona o mapa
+    grid.innerHTML = ""; // limpa antes de recriar
+
+    for (let i = 0; i < currentMap.length; i++){
+        for (let j = 0; j < currentMap[i].length; j++){
+            const square = document.createElement('div');
+            square.setAttribute('id', `square-${i}-${j}`); //square-i-j
+            square.classList.add('square');
+
+            const char = currentMap[i][j]; //seleciona o tipo de chao
+            addMapElement(square, char, i, j);
+
+            grid.appendChild(square);
+            square.push(square);
+        }
+    }
+}
+createBoard();
+
+console.log(square);
+
+function addMapElement(square, char, i, j){
+    switch(char){
+        case 'a':
+            square.classList.add('ground-low');
+            break;
+        case 'b':
+            square.classList.add('ground-medium');
+            break;
+        case 'c':
+            square.classList.add('ground-high');
+            break;  
+        case 'd':
+            square.classList.add('ground-light');
+            break;      
+        case 'e':
+            square.classList.add('ground-empty');
+            break;      
+    }
+
+
+
+
 // POSIÇÃO DO JOGADOR E A DIREÇÃO PARA ONDE ELE ESTÁ OLHANDO
 const player = {
     row: 0,
@@ -6,6 +85,7 @@ const player = {
 };
 
 // FAZER CADA QUADRADO OCUPAR UMA LINHA E UMA COLUNA DEFINIDAS PARA ALTERAR A POSIÇÃO DO JOGADOR
+//acho que aqui sera inutilizado pela minha funcao que ja cria ids para cada quadrado
 const squares = document.querySelectorAll('.square');
 
 let squarePosition = 0;

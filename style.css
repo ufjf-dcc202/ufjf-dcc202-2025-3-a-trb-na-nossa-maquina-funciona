@@ -38,16 +38,15 @@ main {
     height: 100%;
 }
 
-#boardGame {
+#grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     width: 50%;
     height: 80%;
 }
 
 .square {
-    background-color: white;
     width: 100%;
     height: 100%;
     border: 4px solid black;
@@ -191,4 +190,20 @@ aside {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.ground-low {
+    background-color: brown;
+}
+.ground-medium {
+    background-color: sienna;
+}
+.ground-high {
+    background-color: peru;
+}
+.ground-light {
+    background-color: yellow;
+}
+.ground-empty {
+    background-color: lightblue;
 }
