@@ -80,6 +80,7 @@ function addMapElement(square, char, i, j){
 const player = {
     row: 0,
     column: 0,
+    direction: 'right', //up | right | down | left
 };
 
 // RENDERIZA O JOGADOR NA TELA de acordo com O ID dos squares
@@ -92,10 +93,13 @@ function movePlayer() {
     const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
     oldSquare.innerHTML = ''; 
     
-    player.column++; 
-    
-    const newSquare = document.getElementById(`square-${player.row}-${player.column}`); 
-    newSquare.innerHTML = '<i class="bi bi-android2"></i>'; 
+    if (player.direction === 'up') player.row--; 
+    if (player.direction === 'down') player.row++; 
+    if (player.direction === 'left') player.column--; 
+    if (player.direction === 'right') player.column++; 
+
+    // desenha na nova posição 
+    renderPlayer();
 }
 renderPlayer();
 //movePlayer();
