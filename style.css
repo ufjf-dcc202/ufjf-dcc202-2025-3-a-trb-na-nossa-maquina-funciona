@@ -165,12 +165,22 @@ aside {
     font-size: 60px;
 }
 
+#displayProc1 i {
+    display: inline-block;
+    padding: 10px;
+}
+
 #displayProc2 {
     background-color: rgb(200, 200, 200);
     grid-row: 4 / 5;
     grid-column: 2 / 3;
     color: white;
     font-size: 60px;
+}
+
+#displayProc2 i {
+    display: inline-block;
+    padding: 10px;
 }
 
 .display p {
