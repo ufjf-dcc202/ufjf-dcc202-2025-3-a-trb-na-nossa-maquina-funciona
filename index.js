@@ -96,11 +96,18 @@ function movePlayer() {
     const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
     oldSquare.innerHTML = ''; 
     
-    if (player.direction === 'up') player.row--; 
-    if (player.direction === 'down') player.row++; 
-    if (player.direction === 'left') player.column--; 
-    if (player.direction === 'right') player.column++; 
-
+    if (player.direction === 'up'){
+        player.row--;
+    }     
+    if (player.direction === 'down'){
+        player.row++; 
+    } 
+    if (player.direction === 'left'){
+        player.column--; 
+    } 
+    if (player.direction === 'right'){
+        player.column++; 
+    } 
     // desenha na nova posição 
     renderPlayer();
 }
@@ -231,6 +238,7 @@ let p2Exists = false;
 function getCommand(command){
     if (command == 'main'){
         p1Exists = false;
+        p2Exists = false;
     }
     else if (command == 'p1' || p1Exists == true){
         addP1Commands(command);
@@ -326,6 +334,21 @@ function addP2Commands(command){
     }
     console.log(commandsToAppearP2); 
     console.log(commandsToExecuteP2);
+}
+
+function restartLevel(){
+    player.row = 0;
+    player.column = 0;
+    renderPlayer();
+    commandsToAppear = [];
+    commandsToExecute = [];
+    commandsToAppearP1 = [];
+    commandsToExecuteP1 = [];
+    commandsToAppearP2 = [];
+    commandsToExecuteP2 = [];
+    displayMain.innerHTML = commandsToAppear.join('');
+    displayP1.innerHTML = commandsToAppearP1.join('');
+    displayP2.innerHTML = commandsToAppearP2.join('');
 }
 
 function forward(){
