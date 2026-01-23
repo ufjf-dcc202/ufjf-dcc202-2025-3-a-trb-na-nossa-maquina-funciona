@@ -162,38 +162,45 @@ function turnRight() {
 }
 
 function executeCommands() { 
-    delay = 0; // tempo entre comandos em ms
+    let delay = 0; // tempo entre comandos em ms 
     for (let cmd of commandsToExecute) { 
-        setTimeout(() => {
-        if (cmd === 'forward'){
-            movePlayer();
-        }     
-        if (cmd === 'left'){
-            turnLeft(); 
+        // se for P1, expande os comandos de P1 
+        if (cmd === 'p1') { 
+            for (let subCmd of commandsToExecuteP1) { 
+                setTimeout(() => runCommand(subCmd), delay); 
+                delay += (subCmd === 'forward') ? 600 : 1200; 
+            } 
         } 
-        if (cmd === 'right'){
-            turnRight(); 
+        // se for P2, expande os comandos de P2 else 
+        if (cmd === 'p2') { 
+            for (let subCmd of commandsToExecuteP2) { 
+                setTimeout(() => runCommand(subCmd), delay); 
+                delay += (subCmd === 'forward') ? 600 : 1200; 
+            } 
         } 
-        if (cmd === 'light') { 
-            // exemplo: acender luz
-            console.log("Acendeu a luz!");
-            const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
-            if (currentSquare.style.backgroundColor == 'rgb(255, 255, 0)'){
-                currentSquare.style.backgroundColor = '';
-            }
-            else {
-                currentSquare.style.backgroundColor = 'rgb(255, 255, 0)';
-            }
+        // comandos normais 
+        else { 
+            setTimeout(() => runCommand(cmd), delay); 
+            delay += (cmd === 'forward') ? 600 : 1200; 
         } 
-    }, delay); 
-    
-    if (cmd === 'forward'){
-        delay += 600; // milisegundo entre cada comando 
-    }
-    else {
-        delay += 1200;
-    }
-    }
+    } 
+} 
+
+// função para rodar um comando 
+function runCommand(cmd) { 
+    if (cmd === 'forward') movePlayer(); 
+    if (cmd === 'left') turnLeft(); 
+    if (cmd === 'right') turnRight(); 
+    if (cmd === 'light') { 
+        console.log("Acendeu a luz!"); 
+        const currentSquare = document.getElementById(`square-${player.row}-${player.column}`); 
+        if (currentSquare.style.backgroundColor == 'rgb(255, 255, 0)'){ 
+            currentSquare.style.backgroundColor = ''; 
+        } 
+        else { 
+            currentSquare.style.backgroundColor = 'rgb(255, 255, 0)'; 
+        } 
+    } 
 }
 
 renderPlayer(); 
