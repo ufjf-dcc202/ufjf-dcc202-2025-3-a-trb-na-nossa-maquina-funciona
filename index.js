@@ -1,7 +1,16 @@
 const grid = document.querySelector('#grid');
+
 // CRIAR ROBÔ;
 const robot = document.createElement('i');
 robot.classList.add('bi', 'bi-android2');
+robot.style.paddingTop = '5px';
+
+// POSIÇÃO DO JOGADOR E A DIREÇÃO PARA ONDE ELE ESTÁ OLHANDO
+const player = {
+    row: 0,
+    column: 0,
+    direction: 'down', //up | right | down | left
+};
 
 const squaresArray = [];
 let gameRunning = true;
@@ -54,7 +63,6 @@ function createBoard(){
     }
 }
 createBoard();
-
 console.log(squaresArray);
 
 function addMapElement(square, char, i, j){
@@ -77,20 +85,12 @@ function addMapElement(square, char, i, j){
     }
 }
 
-
-
-// POSIÇÃO DO JOGADOR E A DIREÇÃO PARA ONDE ELE ESTÁ OLHANDO
-const player = {
-    row: 0,
-    column: 0,
-    direction: 'right', //up | right | down | left
-};
-
 // RENDERIZA O JOGADOR NA TELA de acordo com O ID dos squares
 function renderPlayer() { 
     const square = document.getElementById(`square-${player.row}-${player.column}`); 
     square.appendChild(robot);
 }
+renderPlayer(); 
 
 // MOVE O JOGADOR NA TELA
 function movePlayer() { 
@@ -163,17 +163,17 @@ function turnRight() {
 
 function executeCommands() { 
     let delay = 0; // tempo entre comandos em ms 
-    for (let cmd of commandsToExecute) { //pega cada comando do array conforme o loop em que esta e coloca em cmd
+    for (let cmd of commandsToExecuteOnMain) { //pega cada comando do array conforme o loop em que esta e coloca em cmd
         // se for P1, expande os comandos de P1 
         if (cmd === 'p1') { 
-            for (let subCmd of commandsToExecuteP1) { 
+            for (let subCmd of commandsToExecuteOnP1) { 
                 setTimeout(() => runCommand(subCmd), delay); 
                 delay += (subCmd === 'forward') ? 600 : 1200; //se é 'forward', espera 600ms, senão espera 1200ms
             } 
         } 
         // se for P2, expande os comandos de P2 
         else if (cmd === 'p2') { 
-            for (let subCmd of commandsToExecuteP2) { 
+            for (let subCmd of commandsToExecuteOnP2) { 
                 setTimeout(() => runCommand(subCmd), delay); 
                 delay += (subCmd === 'forward') ? 600 : 1200; 
             } 
@@ -203,22 +203,21 @@ function runCommand(cmd) {
     } 
 }
 
-renderPlayer(); 
 // quando clicar no botão de executar: 
 document.querySelector('#executeBtn').addEventListener('click', executeCommands);
 
-let commandsToExecute = [];
-let commandsToAppear = [];
-let commandsToExecuteP1 = [];
-let commandsToAppearP1 = [];
-let commandsToExecuteP2 = [];
-let commandsToAppearP2 = [];
+let commandsToExecuteOnMain = [];
+let commandsToAppearOnMain = [];
+let commandsToExecuteOnP1 = [];
+let commandsToAppearOnP1 = [];
+let commandsToExecuteOnP2 = [];
+let commandsToAppearOnP2 = [];
 let counter = 0;
 let counterP1 = 0;
 let counterP2 = 0;
 let displayMain = document.querySelector('#displayMain');
-let displayP1 = document.querySelector('#displayProc1');
-let displayP2 = document.querySelector('#displayProc2');
+let displayP1 = document.querySelector('#displayP1');
+let displayP2 = document.querySelector('#displayP2');
 
 function transformCommands(command){
     switch (command){
@@ -266,24 +265,24 @@ function addMainCommands(command){
         return;
     } 
     else if (command == 'undo'){ 
-        commandsToAppear.pop();
-        commandsToExecute.pop();
-        displayMain.innerHTML = commandsToAppear.join(''); 
+        commandsToAppearOnMain.pop();
+        commandsToExecuteOnMain.pop();
+        displayMain.innerHTML = commandsToAppearOnMain.join(''); 
         counter--;
     } else if (command == 'reset'){
-        commandsToAppear = [];
-        commandsToExecute = [];
-        displayMain.innerHTML = commandsToAppear.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
+        commandsToAppearOnMain = [];
+        commandsToExecuteOnMain = [];
+        displayMain.innerHTML = commandsToAppearOnMain.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
         counter = 0;
     } 
     else { 
-        commandsToAppear.push(transformCommands(command));
-        commandsToExecute.push(command);
-        displayMain.innerHTML = commandsToAppear.join('');
+        commandsToAppearOnMain.push(transformCommands(command));
+        commandsToExecuteOnMain.push(command);
+        displayMain.innerHTML = commandsToAppearOnMain.join('');
         counter++; 
     }
-    console.log(commandsToAppear); 
-    console.log(commandsToExecute);
+    console.log(commandsToAppearOnMain); 
+    console.log(commandsToExecuteOnMain);
 }
 
 function addP1Commands(command){
@@ -295,24 +294,24 @@ function addP1Commands(command){
         return;
     } 
     else if (command == 'undo'){ 
-        commandsToAppearP1.pop();
-        commandsToExecuteP1.pop();
-        displayP1.innerHTML = commandsToAppearP1.join(''); 
+        commandsToAppearOnP1.pop();
+        commandsToExecuteOnP1.pop();
+        displayP1.innerHTML = commandsToAppearOnP1.join(''); 
         counterP1--;
     } else if (command == 'reset'){
-        commandsToAppearP1 = [];
-        commandsToExecuteP1 = [];
-        displayP1.innerHTML = commandsToAppearP1.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
+        commandsToAppearOnP1 = [];
+        commandsToExecuteOnP1 = [];
+        displayP1.innerHTML = commandsToAppearOnP1.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
         counterP1 = 0;
     } 
     else { 
-        commandsToAppearP1.push(transformCommands(command));
-        commandsToExecuteP1.push(command);
-        displayP1.innerHTML = commandsToAppearP1.join('');
+        commandsToAppearOnP1.push(transformCommands(command));
+        commandsToExecuteOnP1.push(command);
+        displayP1.innerHTML = commandsToAppearOnP1.join('');
         counterP1++; 
     }
-    console.log(commandsToAppearP1); 
-    console.log(commandsToExecuteP1);
+    console.log(commandsToAppearOnP1); 
+    console.log(commandsToExecuteOnP1);
 }
 
 function addP2Commands(command){
@@ -324,40 +323,38 @@ function addP2Commands(command){
         return;
     } 
     else if (command == 'undo'){ 
-        commandsToAppearP2.pop();
-        commandsToExecuteP2.pop();
-        displayP2.innerHTML = commandsToAppearP2.join(''); 
+        commandsToAppearOnP2.pop();
+        commandsToExecuteOnP2.pop();
+        displayP2.innerHTML = commandsToAppearOnP2.join(''); 
         counterP2--;
     } else if (command == 'reset'){
-        commandsToAppearP2 = [];
-        commandsToExecuteP2 = [];
-        displayP2.innerHTML = commandsToAppearP2.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
+        commandsToAppearOnP2 = [];
+        commandsToExecuteOnP2 = [];
+        displayP2.innerHTML = commandsToAppearOnP2.join(''); // .join('') adiciona o que estiver no parênteses entre os elementos do vetor, então ele ATUALIZA O VETOR!!!
         counterP2 = 0;
     } 
     else { 
-        commandsToAppearP2.push(transformCommands(command));
-        commandsToExecuteP2.push(command);
-        displayP2.innerHTML = commandsToAppearP2.join('');
+        commandsToAppearOnP2.push(transformCommands(command));
+        commandsToExecuteOnP2.push(command);
+        displayP2.innerHTML = commandsToAppearOnP2.join('');
         counterP2++; 
     }
-    console.log(commandsToAppearP2); 
-    console.log(commandsToExecuteP2);
+    console.log(commandsToAppearOnP2); 
+    console.log(commandsToExecuteOnP2);
 }
 
 function restartLevel(){
     player.row = 0;
     player.column = 0;
+    player.direction = 'down';
     renderPlayer();
-    commandsToAppear = [];
-    commandsToExecute = [];
-    commandsToAppearP1 = [];
-    commandsToExecuteP1 = [];
-    commandsToAppearP2 = [];
-    commandsToExecuteP2 = [];
-    displayMain.innerHTML = commandsToAppear.join('');
-    displayP1.innerHTML = commandsToAppearP1.join('');
-    displayP2.innerHTML = commandsToAppearP2.join('');
-}
-
-function forward(){
+    commandsToAppearOnMain = [];
+    commandsToExecuteOnMain = [];
+    commandsToAppearOnP1 = [];
+    commandsToExecuteOnP1 = [];
+    commandsToAppearOnP2 = [];
+    commandsToExecuteOnP2 = [];
+    displayMain.innerHTML = commandsToAppearOnMain.join('');
+    displayP1.innerHTML = commandsToAppearOnP1.join('');
+    displayP2.innerHTML = commandsToAppearOnP2.join('');
 }
