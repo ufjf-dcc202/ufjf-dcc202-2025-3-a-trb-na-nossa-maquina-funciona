@@ -83,14 +83,16 @@ function addMapElement(square, char, i, j){
 const player = {
     row: 0,
     column: 0,
-    direction: 'down', //up | right | down | left
+    direction: 'right', //up | right | down | left
 };
 
 // RENDERIZA O JOGADOR NA TELA de acordo com O ID dos squares
 function renderPlayer() { 
     const square = document.getElementById(`square-${player.row}-${player.column}`); 
     square.appendChild(robot);
+    robot.style.transform = "rotate(-90deg)";
 } 
+
 // MOVE O JOGADOR NA TELA
 function movePlayer() { 
     const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
