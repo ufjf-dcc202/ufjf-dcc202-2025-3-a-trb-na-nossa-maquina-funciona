@@ -1,3 +1,4 @@
+const body = document.querySelector('body');
 const grid = document.querySelector('#grid');
 
 // CRIAR ROBÔ;
@@ -66,7 +67,9 @@ createBoard();
 console.log(squaresArray);
 
 function addMapElement(square, char, i, j){
-    switch(char){ // ADICIONEI PELO JAVASCRIPT AS CORES PARA FACILITAR ALTERAR E COMPARAR
+    switch(char){ // ADICIONEI PELO JAVASCRIPT AS CORES PARA FACILITAR ALTERAR E COMPARAR-
+
+
         case 'a':
             square.classList.add('ground-low');
             square.style.backgroundColor = 'rgb(226, 11, 11)';
@@ -189,7 +192,8 @@ function executeCommands() {
             delay += (cmd === 'forward') ? 600 : 1200;
         } 
     }
-
+    delay += 1200;
+    setTimeout(() => levelResult(), delay); 
 } 
 
 // função para rodar um comando 
@@ -396,4 +400,34 @@ function restartLevel(){
     resetPlayerPosition();
     renderPlayer();
     resetCommands();
+}
+
+function allTilesHaveBeenLit(){
+    let allLightsOn = true;
+    const squares = document.querySelectorAll('.ground-light');
+    squares.forEach(square => {
+        if (square.style.backgroundColor != 'yellow'){
+            allLightsOn = false;
+        }
+    });
+    return allLightsOn;
+}
+
+function levelResult(){
+    const feedback = document.createElement('p');
+    body.appendChild(feedback);
+    feedback.style.position = 'fixed';
+    feedback.style.inset = '0';
+    feedback.style.display = 'flex';
+    feedback.style.justifyContent = 'center';
+    feedback.style.alignItems = 'center';
+    feedback.style.fontSize = '50px';
+    feedback.style.zIndex = '999';
+    if(allTilesHaveBeenLit() == true){
+        feedback.textContent = 'Parabéns, você conseguiu!';
+    }
+    else {
+        feedback.textContent = 'Você perdeu, vai desistir IGUAL VOCÊ SEMPRE DESISTE?';
+        restartLevel();
+    }
 }
