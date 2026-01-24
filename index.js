@@ -66,7 +66,7 @@ createBoard();
 console.log(squaresArray);
 
 function addMapElement(square, char, i, j){
-    switch(char){
+    switch(char){ // ADICIONEI PELO JAVASCRIPT AS CORES PARA FACILITAR ALTERAR E COMPARAR
         case 'a':
             square.classList.add('ground-low');
             square.style.backgroundColor = 'rgb(226, 11, 11)';
