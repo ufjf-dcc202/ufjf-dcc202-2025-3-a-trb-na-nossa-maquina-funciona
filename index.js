@@ -69,18 +69,23 @@ function addMapElement(square, char, i, j){
     switch(char){
         case 'a':
             square.classList.add('ground-low');
+            square.style.backgroundColor = 'rgb(226, 11, 11)';
             break;
         case 'b':
             square.classList.add('ground-medium');
+            square.style.backgroundColor = 'sienna';
             break;
         case 'c':
             square.classList.add('ground-high');
+            square.style.backgroundColor = 'peru';
             break;  
         case 'd':
             square.classList.add('ground-light');
+            square.style.backgroundColor = 'gray';
             break;      
         case 'e':
             square.classList.add('ground-empty');
+            square.style.backgroundColor = 'white';
             break;      
     }
 }
@@ -175,15 +180,16 @@ function executeCommands() {
         else if (cmd === 'p2') { 
             for (let subCmd of commandsToExecuteOnP2) { 
                 setTimeout(() => runCommand(subCmd), delay); 
-                delay += (subCmd === 'forward') ? 600 : 1200; 
+                delay += (subCmd === 'forward') ? 600 : 1200;
             } 
         } 
         // comandos normais 
-        else { 
+        else{ 
             setTimeout(() => runCommand(cmd), delay); 
-            delay += (cmd === 'forward') ? 600 : 1200; 
+            delay += (cmd === 'forward') ? 600 : 1200;
         } 
-    } 
+    }
+
 } 
 
 // função para rodar um comando 
@@ -194,13 +200,36 @@ function runCommand(cmd) {
     if (cmd === 'light') { 
         console.log("Acendeu a luz!"); 
         const currentSquare = document.getElementById(`square-${player.row}-${player.column}`); 
-        if (currentSquare.style.backgroundColor == 'rgb(255, 255, 0)'){ 
-            currentSquare.style.backgroundColor = ''; 
-        } 
+        if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-low')){ 
+            currentSquare.style.backgroundColor = 'rgb(226, 11, 11)'; 
+        }
+        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-medium')){ 
+            currentSquare.style.backgroundColor = 'sienna'; 
+        }
+        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-high')){ 
+            currentSquare.style.backgroundColor = 'peru'; 
+        }
+        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-light')){ 
+            currentSquare.style.backgroundColor = 'gray'; 
+        }
+        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-empty')){ 
+            currentSquare.style.backgroundColor = 'white'; 
+        }    
         else { 
-            currentSquare.style.backgroundColor = 'rgb(255, 255, 0)'; 
+            currentSquare.style.backgroundColor = 'yellow'; 
         } 
     } 
+}
+
+function isTheSquareSafe(){
+    const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
+    if (currentSquare.style.backgroundColor == 'white'){
+        restartLevel();
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 // quando clicar no botão de executar: 

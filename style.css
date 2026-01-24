@@ -61,22 +61,6 @@ main {
     color: black;
 }
 
-.ground-low {
-    background-color: rgb(226, 11, 11);
-}
-.ground-medium {
-    background-color: sienna;
-}
-.ground-high {
-    background-color: peru;
-}
-.ground-light {
-    background-color: gray;
-}
-.ground-empty {
-    background-color: white;
-}
-
 .controls {
     grid-row: 3 / 4;
     grid-column: 1 / 2;
