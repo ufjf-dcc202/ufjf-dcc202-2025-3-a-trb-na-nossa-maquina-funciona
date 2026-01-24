@@ -343,11 +343,7 @@ function addP2Commands(command){
     console.log(commandsToExecuteOnP2);
 }
 
-function restartLevel(){
-    player.row = 0;
-    player.column = 0;
-    player.direction = 'down';
-    renderPlayer();
+function resetCommands(){
     commandsToAppearOnMain = [];
     commandsToExecuteOnMain = [];
     commandsToAppearOnP1 = [];
@@ -357,4 +353,13 @@ function restartLevel(){
     displayMain.innerHTML = commandsToAppearOnMain.join('');
     displayP1.innerHTML = commandsToAppearOnP1.join('');
     displayP2.innerHTML = commandsToAppearOnP2.join('');
+}
+
+function restartLevel(){
+    player.row = 0;
+    player.column = 0;
+    player.direction = 'down';
+    createBoard();
+    renderPlayer();
+    resetCommands();
 }
