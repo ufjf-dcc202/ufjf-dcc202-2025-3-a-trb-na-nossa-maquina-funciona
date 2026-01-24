@@ -343,6 +343,13 @@ function addP2Commands(command){
     console.log(commandsToExecuteOnP2);
 }
 
+function resetPlayerPosition(){
+    player.row = 0;
+    player.column = 0;
+    player.direction = 'down';
+    robot.style.transform = 'rotate(0deg)';
+}
+
 function resetCommands(){
     commandsToAppearOnMain = [];
     commandsToExecuteOnMain = [];
@@ -356,10 +363,8 @@ function resetCommands(){
 }
 
 function restartLevel(){
-    player.row = 0;
-    player.column = 0;
-    player.direction = 'down';
     createBoard();
+    resetPlayerPosition();
     renderPlayer();
     resetCommands();
 }
