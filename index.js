@@ -216,7 +216,7 @@ function runCommand(cmd) {
     if (player.alive == false){
         return;
     }
-    if (cmd === 'forward' && isTheNextSquareLowerOrEqualPlayerHigh() == true) {
+    if (cmd === 'forward' && isTheNextSquareLowerOrEqualPlayerHigh() == true && isTheNextSquareOnTheMap() == true) {
         movePlayer();
         if (isTheSquareSafe() == false) {
             player.alive = false;
@@ -332,6 +332,41 @@ function isTheNextSquareLowerOrEqualPlayerHigh(){
     else {
         return false;
     }
+}
+
+function isTheNextSquareOnTheMap(){
+    if (player.direction === 'up'){
+        if (player.row - 1 < 0){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }     
+    else if (player.direction === 'down'){
+        if (player.row + 1 > 4){
+            return false;
+        }
+        else {
+            return true;
+        }
+    } 
+    else if (player.direction === 'left'){
+        if (player.column - 1 < 0){
+            return false;
+        }
+        else {
+            return true;
+        } 
+    } 
+    else if (player.direction === 'right'){
+        if (player.column + 1 > 4){
+            return false;
+        }
+        else {
+            return true;
+        } 
+    } 
 }
 
 // quando clicar no botão de executar: 
