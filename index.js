@@ -193,28 +193,43 @@ function executeCommands() {
     }, delay + 1200);
 } 
 
+function handleDeath() {
+    player.alive = false;
+    gameRunning = false;
+    timeouts.forEach(id => clearTimeout(id));
+    timeouts = [];
+    setTimeout(() => {
+        robot.style.transition = 'transform 1.5s ease';
+        robot.style.transform = 'scale(0) rotate(360deg)';
+    }, 650);
+    setTimeout(() => levelResult(), 1800);
+}
+
 function runCommand(cmd) { 
     if (player.alive == false){
         return;
     }
-   if ((cmd === 'forward' || cmd === 'jump') && isTheNextSquareOnTheMap()) { 
-    if (isTheNextSquareLowerOrEqualPlayerHigh()) {
-        movePlayer();
-        updateCurrentPlayerHigh()
-        if (!isTheSquareSafe()) {
-            player.alive = false;
-            gameRunning = false;
-            timeouts.forEach(id => clearTimeout(id));
-            timeouts = [];
-            setTimeout(() => {
-                robot.style.transition = 'transform 1.5s ease';
-                robot.style.transform = 'scale(0) rotate(360deg)';
-            }, 650)
-            setTimeout(() => levelResult(), 1800);
-            return;
-        }
-    }     
-}
+   // ANDAR 
+   if (cmd === 'forward' && isTheNextSquareOnTheMap()) { 
+    if (isTheNextSquareLowerOrEqualPlayerHigh()) { 
+        movePlayer(); 
+        updateCurrentPlayerHigh(); 
+        if (!isTheSquareSafe()) handleDeath(); 
+        } 
+    } 
+    // PULAR 
+    if (cmd === 'jump' && isTheNextSquareOnTheMap()) { 
+        const nextSquare = getNextSquare();
+        const nextHigh = nextSquareHigh();
+
+       if (player.high != nextHigh) { 
+        
+        movePlayer(); 
+        } 
+    updateCurrentPlayerHigh(); 
+    if (!isTheSquareSafe()) handleDeath(); 
+    }
+
     if (cmd === 'left') turnLeft(); 
     if (cmd === 'right') turnRight(); 
     if (cmd === 'light') { 
