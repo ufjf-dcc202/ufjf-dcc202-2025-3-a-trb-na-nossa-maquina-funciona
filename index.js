@@ -22,9 +22,9 @@ const player = {
 const squaresArray = [];
 let timeouts = [];
 let gameRunning = false;
-let level = 1;
-let maxLevel = 3;
-let completedLevels = 0;
+let completedLevels = [false, false, false];
+let level = 1; 
+const maxLevel = 3;
 
 //a= chao baixo| b= chao medio| c= chao alto| d= chao da luz | e= chao vazio
 const maps = [
@@ -605,12 +605,12 @@ function levelResult(){
     disableAllButtons();
     hideResultOverlay()
     if(allTilesHaveBeenLit() == true && player.alive == true){
-        completedLevels++;
+        completedLevels[level - 1] = true;
         feedback.style.color = 'yellow';
         resultOverlay.classList.remove('hidden');
         feedback.classList.remove('hidden');
         feedback.textContent = 'LEVEL CLEAR';
-        if (completedLevels == maxLevel){ 
+        if (allLevelsAreCompleted() == true){ 
             feedback.textContent = 'GAME CLEAR';
         }
         if (level < maxLevel){
@@ -641,4 +641,14 @@ function enableAllButtons(){
     buttons.forEach(button => {
         button.removeAttribute('disabled');
     });
+}
+
+function allLevelsAreCompleted(){
+    let gameClear = true;
+    completedLevels.forEach(level => {
+        if (level == false){
+            gameClear = false;
+        }
+    });
+    return gameClear;
 }
