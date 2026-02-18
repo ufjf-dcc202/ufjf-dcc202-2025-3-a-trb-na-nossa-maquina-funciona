@@ -36,7 +36,7 @@
 - Procedural execution with nested commands (P1 and P2)
 
 ## Conclusion
-Through this project, I improved my understanding of:
+Through this project, We improved my understanding of:
 - HTML semantics and syntax
 - CSS layout techniques, including Flexbox and Grid
 - CSS selectors and specificity
